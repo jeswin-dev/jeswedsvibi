@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
-import { fade, fadeTransition, riseChild, stagger, viewportOnce } from "@/lib/motion";
+import { useGentleMotion } from "@/hooks/useGentleMotion";
+import { fade, riseChild, stagger, viewportOnce } from "@/lib/motion";
 
 type SplitTextProps = {
   text: string;
@@ -23,34 +24,25 @@ export function SplitText({
   each = by === "char" ? 0.035 : 0.06,
   active,
 }: SplitTextProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
   const trigger =
     active === undefined
       ? ({ whileInView: "shown", viewport: viewportOnce } as const)
       : ({ animate: active ? "shown" : "hidden" } as const);
 
-  // Screen readers get the whole phrase; the pieces below are decorative.
-  if (reduceMotion) {
-    return (
-      <motion.span
-        className={className}
-        variants={fade}
-        initial="hidden"
-        transition={fadeTransition(delay)}
-        {...trigger}
-      >
-        {text}
-      </motion.span>
-    );
-  }
-
   const words = text.split(" ");
 
+  /**
+   * Reduced motion changes only the variants, never the markup. Branching on
+   * the markup would mismatch between the server (which cannot know the
+   * preference) and the client, and React would throw out the tree.
+   */
   return (
     <motion.span
       className={className}
-      variants={stagger(each, delay)}
+      variants={reduceMotion ? fade : stagger(each, delay)}
       initial="hidden"
+      transition={reduceMotion ? { duration: 0.8, delay } : undefined}
       {...trigger}
       aria-label={text}
     >
@@ -59,14 +51,14 @@ export function SplitText({
           {by === "char" ? (
             [...word].map((char, charIndex) => (
               <span key={charIndex} className="inline-block overflow-hidden align-bottom">
-                <motion.span className="inline-block" variants={riseChild}>
+                <motion.span className="inline-block" variants={reduceMotion ? undefined : riseChild}>
                   {char}
                 </motion.span>
               </span>
             ))
           ) : (
             <span className="inline-block overflow-hidden align-bottom">
-              <motion.span className="inline-block" variants={riseChild}>
+              <motion.span className="inline-block" variants={reduceMotion ? undefined : riseChild}>
                 {word}
               </motion.span>
             </span>

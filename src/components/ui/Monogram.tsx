@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
+import { useGentleMotion } from "@/hooks/useGentleMotion";
 import { ease } from "@/lib/motion";
 
 /**
@@ -26,7 +27,7 @@ type MonogramProps = {
 };
 
 export function Monogram({ initials, className, animate = true, delay = 0 }: MonogramProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
   const shouldDraw = animate && !reduceMotion;
 
   const draw = (index: number) => {

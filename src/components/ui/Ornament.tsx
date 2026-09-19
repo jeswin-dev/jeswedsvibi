@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
+import { useGentleMotion } from "@/hooks/useGentleMotion";
 import { ease, viewportOnce } from "@/lib/motion";
 
 const STEM = "M20 6C11 92 29 168 20 248C11 328 26 366 20 394";
@@ -32,7 +33,7 @@ export function Ornament({
   tone = "gold",
 }: OrnamentProps) {
   const stroke = tone === "gold" ? "var(--color-gold)" : "var(--color-champagne)";
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
   const trigger =
     active === undefined
       ? ({ whileInView: "shown", viewport: viewportOnce } as const)

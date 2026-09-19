@@ -34,7 +34,7 @@ export default function Page() {
 
       <ArchDivider from="ivory" to="emerald" />
 
-      <Atmosphere />
+      {/* <Atmosphere /> */}
 
       <Section id="venue">
         <Venue />

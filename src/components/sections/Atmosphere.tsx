@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
+
+import { useGentleMotion } from "@/hooks/useGentleMotion";import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { GoldRule } from "@/components/ui/GoldRule";
@@ -123,7 +124,7 @@ function PinnedStrip() {
 
 export function Atmosphere() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
 
   return isDesktop && !reduceMotion ? <PinnedStrip /> : <SwipeStrip />;
 }

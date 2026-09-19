@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import Image from "next/image";
+import { motion } from "framer-motion";
+
+import { useGentleMotion } from "@/hooks/useGentleMotion";import Image from "next/image";
 
 import { ease } from "@/lib/motion";
 
@@ -26,7 +27,7 @@ export function ArchFrame({
   kenBurns = false,
   dissolveClassName = "from-emerald via-emerald/80",
 }: ArchFrameProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
   const drift = kenBurns && !reduceMotion;
 
   return (

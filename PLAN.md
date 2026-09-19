@@ -346,13 +346,14 @@ Each phase ends somewhere you can look at it and react.
 
 1. ~~**Foundation** — Next.js scaffold, tokens, fonts, Lenis, grain, reveal primitives.~~ Done.
 2. ~~**Hero + envelope intro** — the make-or-break moment.~~ Done — awaiting review.
-3. **Invitation, countdown, story** — the editorial core, plus calendar export.
-4. **Atmosphere strip and venue/map** — the showpiece interaction and directions.
-5. **RSVP and wishes** — route handlers, sheet wiring, success and failure states.
-6. **Polish** — share card, `noindex`, reduced-motion pass, Lighthouse, real-device check
-   on iOS Safari and Android Chrome (where smooth-scroll libraries usually misbehave).
-7. **Deploy** — Vercel project, environment variables, domain, and a short README so you
-   can edit copy yourself.
+3. ~~**Invitation, countdown, verse** — the editorial core, plus calendar export.~~ Done.
+4. ~~**Atmosphere strip and venue/map** — the showpiece interaction and directions.~~ Done.
+5. ~~**RSVP and wishes** — route handlers, sheet wiring, success and failure states.~~ Done
+   (the sheet credentials are still to be added; the site runs without them).
+6. **Polish** — share card done. Still to do: real-device check on iOS Safari and Android
+   Chrome (where smooth-scroll libraries usually misbehave), a Lighthouse pass, and the
+   real photograph.
+7. **Deploy** — Vercel project, environment variables, domain.
 
 ---
 

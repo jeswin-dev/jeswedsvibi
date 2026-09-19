@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { useLenis } from "lenis/react";
+import { motion } from "framer-motion";
+
+import { useGentleMotion } from "@/hooks/useGentleMotion";import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
 
 import { Monogram } from "@/components/ui/Monogram";
@@ -14,7 +15,7 @@ const { couple } = invitation;
 
 export function EnvelopeIntro() {
   const { opened, open } = useIntro();
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
   const lenis = useLenis();
   const [dismissed, setDismissed] = useState(false);
 

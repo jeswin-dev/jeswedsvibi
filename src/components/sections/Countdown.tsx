@@ -1,7 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
+import { useGentleMotion } from "@/hooks/useGentleMotion";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -13,7 +14,7 @@ import { ease } from "@/lib/motion";
 const { date } = invitation;
 
 function Digit({ value, label, delay }: { value: number; label: string; delay: number }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
   const display = String(value).padStart(2, "0");
 
   return (
@@ -25,23 +26,21 @@ function Digit({ value, label, delay }: { value: number; label: string; delay: n
         <span className="absolute -bottom-px -left-px size-2 border-b border-l border-gold/70" />
         <span className="absolute -right-px -bottom-px size-2 border-b border-r border-gold/70" />
 
+        {/* Reduced motion shortens the flip rather than changing the markup,
+            which would mismatch on hydration. */}
         <span className="relative block h-[1.15em] overflow-hidden font-display text-[clamp(2rem,9vw,3.25rem)] leading-none font-light text-ivory tabular-nums">
-          {reduceMotion ? (
-            display
-          ) : (
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={display}
-                className="block"
-                initial={{ y: "-100%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "100%", opacity: 0 }}
-                transition={{ duration: 0.45, ease }}
-              >
-                {display}
-              </motion.span>
-            </AnimatePresence>
-          )}
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={display}
+              className="block"
+              initial={reduceMotion ? { opacity: 0 } : { y: "-100%", opacity: 0 }}
+              animate={reduceMotion ? { opacity: 1 } : { y: "0%", opacity: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { y: "100%", opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0.01 : 0.45, ease }}
+            >
+              {display}
+            </motion.span>
+          </AnimatePresence>
         </span>
       </span>
       <span className="label mt-3 text-[0.5625rem] text-champagne">{label}</span>

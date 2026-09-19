@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
+import { useGentleMotion } from "@/hooks/useGentleMotion";
 import { useIntro } from "@/components/shell/intro-context";
 import { ArchFrame } from "@/components/ui/ArchFrame";
 import { GoldRule } from "@/components/ui/GoldRule";
@@ -17,7 +18,7 @@ export function Hero() {
   // The hero is behind the envelope, so it waits for the seal to break
   // rather than animating unseen.
   const { opened } = useIntro();
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useGentleMotion();
 
   return (
     <section className="relative isolate h-screen-safe w-full overflow-hidden bg-emerald">
@@ -40,15 +41,18 @@ export function Hero() {
       />
 
       {/* Bottom padding reserves room for the scroll cue so the two can never
-          collide on a short viewport. */}
-      <div className="relative flex h-full flex-col items-center justify-center px-6 pt-safe pb-24">
+          collide. A landscape phone gets a compacted version of the whole
+          composition rather than an overflowing one. */}
+      <div className="relative flex h-full flex-col items-center justify-center px-6 pt-safe pb-24 [@media(max-height:520px)]:pb-8">
         <Reveal active={opened} delay={0.15}>
-          <p className="label mb-6 text-center text-gold/70 sm:mb-8">{hero.eyebrow}</p>
+          <p className="label mb-6 text-center text-gold/70 sm:mb-8 [@media(max-height:520px)]:mb-2">
+            {hero.eyebrow}
+          </p>
         </Reveal>
 
         {/* Height-driven so it never overflows a short or landscape screen. */}
         <motion.div
-          className="relative aspect-[3/4] h-[38dvh] max-h-[26rem] min-h-[11rem] w-auto sm:h-[40dvh] md:max-h-[28rem] lg:h-[42dvh]"
+          className="relative aspect-[3/4] h-[38dvh] max-h-[26rem] min-h-[11rem] w-auto sm:h-[40dvh] md:max-h-[28rem] lg:h-[42dvh] [@media(max-height:520px)]:h-[30dvh] [@media(max-height:520px)]:min-h-0"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={opened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.96 }}
           transition={{ duration: 1.6, ease, delay: 0.1 }}
@@ -69,10 +73,10 @@ export function Hero() {
             text={couple.one.first}
             active={opened}
             delay={0.5}
-            className="block text-[clamp(2.75rem,14vw,5.75rem)] tracking-[0.01em]"
+            className="block text-[clamp(2.25rem,min(14vw,11vh),5.75rem)] tracking-[0.01em]"
           />
           <motion.span
-            className="my-1 block font-display text-[clamp(1.1rem,4vw,1.9rem)] font-light italic text-gold-light/80 md:my-2"
+            className="my-1 block font-display text-[clamp(1rem,min(4vw,3.2vh),1.9rem)] font-light italic text-gold-light/80 md:my-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: opened ? 1 : 0 }}
             transition={{ duration: 1.1, ease, delay: 0.95 }}
@@ -83,14 +87,19 @@ export function Hero() {
             text={couple.two.first}
             active={opened}
             delay={1.1}
-            className="block text-[clamp(2.75rem,14vw,5.75rem)] tracking-[0.01em]"
+            className="block text-[clamp(2.25rem,min(14vw,11vh),5.75rem)] tracking-[0.01em]"
           />
         </h1>
 
-        <GoldRule ornament active={opened} delay={1.5} className="mt-7 w-40 sm:w-52 md:mt-9" />
+        <GoldRule
+          ornament
+          active={opened}
+          delay={1.5}
+          className="mt-7 w-40 sm:w-52 md:mt-9 [@media(max-height:520px)]:mt-3"
+        />
 
         <Reveal active={opened} delay={1.7}>
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center [@media(max-height:520px)]:mt-3">
             <p className="label text-ivory/75 sm:text-xs">
               {date.dayOfWeek} · {date.display}
             </p>
@@ -101,8 +110,9 @@ export function Hero() {
         </Reveal>
       </div>
 
+      {/* A landscape phone has no room for the cue, and no need for it. */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 pb-safe"
+        className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 pb-safe [@media(max-height:520px)]:hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: opened ? 1 : 0 }}
         transition={{ duration: 1, ease, delay: 2.2 }}
