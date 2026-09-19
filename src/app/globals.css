@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #0a1f1a;
+  --color-emerald: #0e2a23;
+  --color-emerald-mid: #1b4d3e;
+  --color-ivory: #f7f3ea;
+  --color-ivory-lift: #fcfaf5;
+  --color-gold: #c9a227;
+  --color-gold-light: #e3c978;
+  --color-champagne: #b08d57;
+
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drift: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@theme inline {
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-body: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    /* A stray transform must never be able to shift the page sideways. */
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-emerald);
+    color: var(--color-ivory);
+    font-family: var(--font-body);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-forest);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  /* Lenis drives scrolling; this keeps anchors from double-animating. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility label {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+/* Full-screen on phones: dvh excludes browser chrome, vh is the old fallback. */
+@utility h-screen-safe {
+  height: 100vh;
+  height: 100dvh;
+}
+
+@utility min-h-screen-safe {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Clears notches and home indicators, with a sane floor on desktop. */
+@utility pt-safe {
+  padding-top: max(env(safe-area-inset-top), 1.5rem);
+}
+
+@utility pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 1.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
