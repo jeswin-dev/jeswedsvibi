@@ -122,19 +122,6 @@ export function Bokeh({ className = "" }: { className?: string }) {
   );
 }
 
-export function GoldLeaf({ className = "" }: { className?: string }) {
-  return (
-    <div
-      className={`pointer-events-none absolute inset-0 ${className}`}
-      style={{
-        backgroundImage: "url('/images/gold-foil.jpg')",
-        backgroundSize: "420px auto",
-      }}
-      aria-hidden
-    />
-  );
-}
-
 /** Fibrous mottling so the ivory sections read as paper. */
 export function Paper({ className = "" }: { className?: string }) {
   return (

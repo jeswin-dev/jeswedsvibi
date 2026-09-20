@@ -27,15 +27,13 @@ guest in Kochi and one in Toronto alike.
 Drop the real photo into `public/images/` and point `photo.src` at it. Portrait orientation
 works best, since it sits inside a tall arch.
 
-Until then the arch shows `couple-placeholder.jpg`. The four images in the evening strip are
-deliberately textural — candlelight, roses, an arch, velvet — and contain no people, because
-stock photos of other couples would undercut the real photograph beside them.
+Until then the arch shows `couple-placeholder.jpg`.
 
 ## Music
 
-Optional and silent until configured. Put a track in `public/audio/` and set `audioSrc` in
-the content file; the toggle only appears when a track exists. Sound is unlocked by the tap
-that opens the envelope, so it never autoplays at anyone.
+A public-domain recording of Erik Satie's *Gymnopédie No. 1* (CC0, no royalties) starts
+when the envelope is opened. The corner toggle mutes it. To swap the track, replace
+`public/audio/gymnopedie.m4a` and point `audioSrc` at the new file.
 
 ## Saving the wishes
 
@@ -89,10 +87,9 @@ open it.
 Live: wax-seal intro, hero, invitation, countdown, verse, venue and map, wishes wall, footer,
 share card.
 
-Parked but built — each is one line in `src/app/page.tsx` away from returning:
+Parked but built — one line in `src/app/page.tsx` away from returning:
 
 - The **RSVP fold** (`src/components/sections/Rsvp.tsx`), its route handler, and the floating
   RSVP pill in `src/app/layout.tsx`.
-- The **evening strip** (`src/components/sections/Atmosphere.tsx`) and its four images.
 
-Remaining: the real photograph, optional music, a custom domain, and a pass on real devices.
+Remaining: the real photograph, a custom domain, and a pass on real devices.

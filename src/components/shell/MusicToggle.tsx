@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useIntro } from "@/components/shell/intro-context";
 import { invitation } from "@/content/invitation";
@@ -15,45 +15,48 @@ const BARS = [0.45, 1, 0.65, 0.85];
  * never arrives unannounced.
  */
 export function MusicToggle() {
-  const { opened } = useIntro();
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const { opened, musicRef } = useIntro();
   const [playing, setPlaying] = useState(false);
   const src = invitation.audioSrc;
 
   useEffect(() => {
-    if (!src || !opened) return;
-    const audio = audioRef.current;
+    const audio = musicRef.current;
     if (!audio) return;
 
     audio.volume = 0.35;
-    audio
-      .play()
-      .then(() => setPlaying(true))
-      .catch(() => setPlaying(false));
-  }, [opened, src]);
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+    return () => {
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+    };
+  }, [musicRef, src]);
 
   if (!src) return null;
 
   function toggle() {
-    const audio = audioRef.current;
+    const audio = musicRef.current;
     if (!audio) return;
 
     if (audio.paused) {
-      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+      void audio.play().catch(() => {});
     } else {
       audio.pause();
-      setPlaying(false);
     }
   }
 
   return (
     <>
-      <audio ref={audioRef} src={src} loop preload="none" />
+      <audio ref={musicRef} src={src} loop preload="auto" playsInline />
       <motion.button
         type="button"
         onClick={toggle}
         aria-label={playing ? "Mute music" : "Play music"}
-        className="fixed top-[max(env(safe-area-inset-top),1rem)] right-4 z-30 flex size-11 items-center justify-center rounded-full border border-gold/35 bg-emerald/70 backdrop-blur-sm sm:right-6"
+        className={`fixed top-[max(env(safe-area-inset-top),1rem)] right-4 z-30 flex size-11 items-center justify-center rounded-full border border-gold/35 bg-emerald/70 backdrop-blur-sm sm:right-6 ${
+          opened ? "" : "pointer-events-none"
+        }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: opened ? 1 : 0 }}
         transition={{ duration: 0.8, ease, delay: 2.4 }}

@@ -8,8 +8,7 @@ import { Verse } from "@/components/sections/Verse";
 import { Wishes } from "@/components/sections/Wishes";
 import { ArchDivider, Section } from "@/components/ui/Section";
 
-// Parked, not deleted — both are one line away from returning:
-// import { Atmosphere } from "@/components/sections/Atmosphere";
+// Parked, not deleted — one line away from returning:
 // import { Rsvp } from "@/components/sections/Rsvp";
 
 export default function Page() {

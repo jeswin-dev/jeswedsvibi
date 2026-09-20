@@ -75,19 +75,8 @@ export const invitation = {
     alt: "Jesme and Vibin",
   },
 
-  /** Textural imagery only — deliberately no stock photographs of people. */
-  atmosphere: {
-    eyebrow: "The Evening",
-    items: [
-      { src: "/images/atmos-candles.jpg", alt: "Ivory candles in brass candlesticks", caption: "Candlelight" },
-      { src: "/images/atmos-roses.jpg", alt: "Ivory roses and jasmine", caption: "Ivory & Jasmine" },
-      { src: "/images/atmos-arch.jpg", alt: "A carved stone arch lit by a brass lamp", caption: "Under the Arches" },
-      { src: "/images/atmos-velvet.jpg", alt: "Emerald velvet with gold embroidery", caption: "Emerald & Gold" },
-    ],
-  },
-
-  // Set to a file in public/audio to enable the music toggle.
-  audioSrc: null as string | null,
+  // Erik Satie, Gymnopédie No. 1. Recording released as CC0 — no royalties.
+  audioSrc: "/audio/gymnopedie.m4a",
 
   rsvp: {
     eyebrow: "RSVP",
