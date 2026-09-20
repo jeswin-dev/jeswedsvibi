@@ -7,7 +7,7 @@ import { Monogram } from "@/components/ui/Monogram";
 import { Reveal } from "@/components/ui/Reveal";
 import { invitation } from "@/content/invitation";
 
-const { couple, date, footer, meta, venue } = invitation;
+const { contact, couple, date, footer, meta, venue } = invitation;
 
 export function Footer() {
   const [copied, setCopied] = useState(false);
@@ -63,6 +63,19 @@ export function Footer() {
         >
           {copied ? "Link copied" : "Share this invitation"}
         </button>
+      </Reveal>
+
+      {/* The only place the contact number lives while RSVP is parked. */}
+      <Reveal delay={0.35}>
+        <p className="mt-10 text-sm text-ivory/60">
+          For any details, call {contact.name} on{" "}
+          <a
+            href={`tel:${contact.phone}`}
+            className="border-b border-gold/40 pb-0.5 whitespace-nowrap text-ivory/85 transition-colors hover:border-gold"
+          >
+            {contact.display}
+          </a>
+        </p>
       </Reveal>
 
       <Reveal delay={0.4}>

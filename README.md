@@ -37,83 +37,62 @@ Optional and silent until configured. Put a track in `public/audio/` and set `au
 the content file; the toggle only appears when a track exists. Sound is unlocked by the tap
 that opens the envelope, so it never autoplays at anyone.
 
-## Collecting RSVPs
+## Saving the wishes
 
-RSVP replies and wishes are appended to a Google Sheet. Until the three environment
-variables exist the site still works: the RSVP form asks guests to call or WhatsApp instead,
-and the wishes wall stays closed. Nothing breaks, so this can be set up at any point.
+Wishes are stored in Upstash Redis. Until it is connected the site still works: the wall
+shows its empty state and the form says wishes are not open yet. Nothing breaks, so this can
+be set up whenever.
 
-### 1. Create the sheet
+### Connect it (about two minutes)
 
-Make a new Google Sheet and create two tabs, named exactly `RSVP` and `Wishes`.
+1. Open the project in Vercel and go to the **Storage** tab.
+2. Choose **Create Database → Upstash → Redis**, pick the region closest to Kerala, and
+   create it on the free plan.
+3. Accept the prompt to connect it to this project.
 
-Put these headers in row 1 of `RSVP`:
+That is the whole setup. Vercel writes `UPSTASH_REDIS_REST_URL` and
+`UPSTASH_REDIS_REST_TOKEN` into the project itself, so there is no key to copy, no JSON file
+to keep safe, and nothing to share with a robot account. Redeploy once and the wall is live.
 
-| A | B | C | D | E |
-| --- | --- | --- | --- | --- |
-| Timestamp | Name | Phone | Attending | Guests |
-
-And these in row 1 of `Wishes`:
-
-| A | B | C | D |
-| --- | --- | --- | --- |
-| Timestamp | Name | Message | Hidden |
-
-Copy the sheet id out of the URL — it's the long string between `/d/` and `/edit`.
-
-### 2. Create a service account
-
-This is a robot account that writes rows for you. It cannot read anything else in your
-Drive.
-
-1. Go to [console.cloud.google.com](https://console.cloud.google.com) and create a project
-   (any name).
-2. In **APIs & Services → Library**, search for **Google Sheets API** and enable it.
-3. In **APIs & Services → Credentials**, choose **Create credentials → Service account**,
-   give it a name like `invitation-writer`, and create it.
-4. Open the new service account, go to the **Keys** tab, and choose **Add key → Create new
-   key → JSON**. A `.json` file downloads. Keep it private — it is a password.
-
-### 3. Share the sheet with it
-
-Open the JSON file and find `client_email` (it ends in `.iam.gserviceaccount.com`). Back in
-the Google Sheet, press **Share**, paste that address, and give it **Editor** access.
-
-This step is the one people forget. Without it, every write fails with a permission error.
-
-### 4. Add the three variables
-
-Copy `.env.example` to `.env.local` and fill in:
-
-- `GOOGLE_SERVICE_ACCOUNT_EMAIL` — the `client_email` from the JSON.
-- `GOOGLE_PRIVATE_KEY` — the `private_key` from the JSON, in double quotes, keeping the
-  `\n` escapes exactly as they appear.
-- `RSVP_SHEET_ID` — the id from step 1.
-
-Add the same three in Vercel under **Project → Settings → Environment Variables**, then
-redeploy. Restart `npm run dev` after changing `.env.local`.
+To run the wall on your own machine too, copy those two values from the database's
+**.env** tab into a local `.env.local`, then restart `npm run dev`.
 
 ### Reading and moderating
 
-RSVP rows arrive in the `RSVP` tab as they come in. A guest who submits twice creates two
-rows, so sort by phone if you need to reconcile.
+Open the database in Vercel (or at [console.upstash.com](https://console.upstash.com)) and
+use the **Data Browser**. Two keys hold everything:
 
-Wishes publish to the site immediately. To take one down, set its `Hidden` cell to `TRUE`;
-it disappears within a minute. Submissions are already length-capped, stripped of links and
-HTML, rate-limited per visitor, and refused outright if they contain abuse.
+- `wishes` — every wish from the wall.
+- `rsvps` — replies, once the RSVP fold comes back.
+
+Each key is a hash whose fields are individual entries, so you can read them one by one and
+delete a single wish with the field's delete button. That is deliberate: a Redis list would
+have forced you into command-line surgery to remove one entry.
+
+A deleted wish leaves the site within a minute, since the wall caches for 60 seconds. If you
+would rather hide a wish without losing what it said, edit its JSON and add `"hidden": true`.
+
+Wishes publish instantly, so the safeguards run before anything is stored: length limits,
+HTML and links stripped out, per-visitor rate limiting, and outright refusal of abuse.
 
 ## Deploying
 
-Import the repo into Vercel — no configuration needed. Add the environment variables above
-if RSVP is wired up, and set `NEXT_PUBLIC_SITE_URL` to the final domain so the WhatsApp and
-iMessage link previews point at the right place.
+Import the repo into Vercel — no configuration needed. Add Upstash from the Storage tab when
+you want the wishes wall live, and set `NEXT_PUBLIC_SITE_URL` to the final domain so the
+WhatsApp and iMessage link previews point at the right place.
 
 The site is `noindex`, so it will not appear in search results. Anyone with the link can
 open it.
 
 ## Build phases
 
-Done: foundation, wax-seal intro, hero, invitation, countdown, verse, evening strip, venue
-and map, RSVP, wishes wall, footer, share card.
+Live: wax-seal intro, hero, invitation, countdown, verse, venue and map, wishes wall, footer,
+share card.
+
+Parked but built — each is one line in `src/app/page.tsx` away from returning:
+
+- The **RSVP fold** (`src/components/sections/Rsvp.tsx`), its route handler, and the floating
+  RSVP pill in `src/app/layout.tsx`.
+- The **evening strip** (`src/components/sections/Atmosphere.tsx`) and its four images.
 
 Remaining: the real photograph, optional music, a custom domain, and a pass on real devices.

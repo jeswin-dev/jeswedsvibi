@@ -5,6 +5,13 @@ import { motion } from "framer-motion";
 import { useGentleMotion } from "@/hooks/useGentleMotion";
 import { fade, riseChild, stagger, viewportOnce } from "@/lib/motion";
 
+/**
+ * The mask clips at the line box, which cuts the tails off descenders — the J in
+ * a display serif most visibly. Padding gives those glyphs room; the matching
+ * negative margin keeps the padding from shifting the layout.
+ */
+const MASK = "inline-block overflow-hidden align-bottom pb-[0.2em] -mb-[0.2em]";
+
 type SplitTextProps = {
   text: string;
   /** Characters read as more deliberate; words are better for long lines. */
@@ -50,14 +57,17 @@ export function SplitText({
         <span key={`${word}-${wordIndex}`} className="inline-block whitespace-nowrap" aria-hidden>
           {by === "char" ? (
             [...word].map((char, charIndex) => (
-              <span key={charIndex} className="inline-block overflow-hidden align-bottom">
-                <motion.span className="inline-block" variants={reduceMotion ? undefined : riseChild}>
+              <span key={charIndex} className={MASK}>
+                <motion.span
+                  className="inline-block"
+                  variants={reduceMotion ? undefined : riseChild}
+                >
                   {char}
                 </motion.span>
               </span>
             ))
           ) : (
-            <span className="inline-block overflow-hidden align-bottom">
+            <span className={MASK}>
               <motion.span className="inline-block" variants={reduceMotion ? undefined : riseChild}>
                 {word}
               </motion.span>

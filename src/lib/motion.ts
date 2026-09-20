@@ -27,9 +27,13 @@ export const stagger = (each = 0.04, delay = 0): Variants => ({
   shown: { transition: { staggerChildren: each, delayChildren: delay } },
 });
 
-/** Each letter or word of a heading, masked by an overflow-hidden wrapper. */
+/**
+ * Each letter or word of a heading, masked by an overflow-hidden wrapper. The
+ * distance clears the mask's descender padding as well as the line box, so a
+ * letter is genuinely out of sight before it rises.
+ */
 export const riseChild: Variants = {
-  hidden: { y: "110%" },
+  hidden: { y: "135%" },
   shown: { y: "0%", transition: { duration: 1, ease } },
 };
 

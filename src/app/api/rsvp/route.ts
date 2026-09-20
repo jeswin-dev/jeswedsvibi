@@ -2,13 +2,18 @@ import { NextResponse } from "next/server";
 
 import { clientIp, rateLimited } from "@/lib/guard";
 import { rsvpSchema } from "@/lib/schemas";
-import { TABS, appendRow, credentials } from "@/lib/sheets";
+import { KEYS, putEntry, rateLimitedInRedis, storeConfigured } from "@/lib/store";
 
-// Signing the service-account JWT needs node:crypto.
 export const runtime = "nodejs";
 
+/**
+ * The RSVP fold is parked, so nothing calls this yet. It stays wired to the same
+ * store as the wishes wall, ready for the day it comes back.
+ */
 export async function POST(request: Request) {
-  if (rateLimited(`rsvp:${clientIp(request)}`)) {
+  const ip = clientIp(request);
+
+  if (rateLimited(`rsvp:${ip}`) || (await rateLimitedInRedis(`rsvp:${ip}`, 12, 60))) {
     return NextResponse.json(
       { error: "That was a lot of replies at once. Please try again in a minute." },
       { status: 429 },
@@ -27,21 +32,18 @@ export async function POST(request: Request) {
   // Silently accept bot submissions rather than telling them they were caught.
   if (honeypot) return NextResponse.json({ ok: true });
 
-  if (!credentials()) {
-    return NextResponse.json(
-      { error: "not-configured", configured: false },
-      { status: 503 },
-    );
+  if (!storeConfigured()) {
+    return NextResponse.json({ error: "not-configured", configured: false }, { status: 503 });
   }
 
   try {
-    await appendRow(TABS.rsvp, [
-      new Date().toISOString(),
+    await putEntry(KEYS.rsvps, {
       name,
       phone,
-      attending === "yes" ? "Yes" : "No",
-      attending === "yes" ? guests : 0,
-    ]);
+      attending: attending === "yes" ? "Yes" : "No",
+      guests: attending === "yes" ? guests : 0,
+      at: new Date().toISOString(),
+    });
 
     return NextResponse.json({ ok: true });
   } catch (error) {

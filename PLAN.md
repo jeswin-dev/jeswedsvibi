@@ -230,6 +230,11 @@ desktop), and a quiet credit line.
 
 ## 6. Data & integrations
 
+> **Superseded:** the two subsections below describe the original Google Sheets design.
+> Storage moved to Upstash Redis, which Vercel provisions in a couple of clicks with no
+> credentials to copy. The validation, sanitising and rate-limiting behaviour described here
+> all still applies. See the README for current setup.
+
 ### RSVP → Google Sheet
 
 A Next.js route handler (`POST /api/rsvp`) writes a row to a Google Sheet using the
@@ -362,7 +367,9 @@ Each phase ends somewhere you can look at it and react.
 | Question | Answer |
 | --- | --- |
 | Palette | Emerald & antique gold |
-| RSVP destination | Google Sheet via a Vercel API route |
+| Storage | Upstash Redis, added from Vercel's Storage tab (replaced Google Sheets: the code was fine, the service-account setup was the burden) |
+| Moderation | In the Upstash data browser — wishes are hash fields, so one can be deleted on its own |
+| RSVP fold | Parked for now. Built, tested and one line from returning |
 | RSVP fields | Name, phone, attending, guest count |
 | Map | Google Maps embed, palette-graded, with directions buttons |
 | Imagery | Their one photo as the centerpiece; non-human stock and SVG ornament elsewhere |

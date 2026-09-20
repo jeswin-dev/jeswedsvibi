@@ -1,7 +1,12 @@
 /** Small safeguards for the two public write endpoints. */
 
 const WINDOW_MS = 60_000;
-const MAX_PER_WINDOW = 5;
+/**
+ * Generous on purpose: guests on the venue's WiFi all share one address, so a
+ * tight cap would turn several people replying at once into a false positive.
+ * It still stops a flood.
+ */
+const MAX_PER_WINDOW = 12;
 const hits = new Map<string, number[]>();
 
 export function clientIp(request: Request) {

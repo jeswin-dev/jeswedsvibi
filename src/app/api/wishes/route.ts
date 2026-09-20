@@ -3,18 +3,18 @@ import { NextResponse } from "next/server";
 import { clientIp, containsAbuse, rateLimited, sanitize } from "@/lib/guard";
 import type { Wish } from "@/lib/schemas";
 import { wishSchema } from "@/lib/schemas";
-import { TABS, appendRow, credentials, readRows } from "@/lib/sheets";
+import { KEYS, listEntries, putEntry, rateLimitedInRedis, storeConfigured } from "@/lib/store";
 
 export const runtime = "nodejs";
 
-/** Columns: Timestamp | Name | Message | Hidden */
-const RANGE = `${TABS.wishes}!A2:D`;
 const CACHE_MS = 60_000;
+
+type StoredWish = Wish & { id: string; hidden?: boolean };
 
 let cache: { wishes: Wish[]; at: number } | null = null;
 
 export async function GET() {
-  if (!credentials()) {
+  if (!storeConfigured()) {
     return NextResponse.json({ wishes: [], configured: false });
   }
 
@@ -23,12 +23,13 @@ export async function GET() {
   }
 
   try {
-    const rows = await readRows(RANGE);
-    const wishes = rows
-      // Setting Hidden to TRUE in the sheet pulls a wish off the site.
-      .filter((row) => row[1] && row[2] && String(row[3] ?? "").toUpperCase() !== "TRUE")
-      .map<Wish>((row) => ({ at: row[0] ?? "", name: row[1], message: row[2] }))
-      .reverse();
+    const stored = await listEntries<StoredWish>(KEYS.wishes);
+    const wishes = stored
+      // Deleting the field in the Upstash dashboard removes a wish; setting
+      // "hidden": true in its JSON hides it while keeping the text.
+      .filter((wish) => wish.name && wish.message && wish.hidden !== true)
+      .sort((a, b) => (a.at < b.at ? 1 : -1))
+      .map<Wish>(({ name, message, at }) => ({ name, message, at }));
 
     cache = { wishes, at: Date.now() };
     return NextResponse.json({ wishes, configured: true });
@@ -39,7 +40,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (rateLimited(`wish:${clientIp(request)}`)) {
+  const ip = clientIp(request);
+
+  if (rateLimited(`wish:${ip}`) || (await rateLimitedInRedis(`wish:${ip}`, 12, 60))) {
     return NextResponse.json(
       { error: "Thanks for the enthusiasm. Please try again in a minute." },
       { status: 429 },
@@ -54,8 +57,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { honeypot } = parsed.data;
-  if (honeypot) return NextResponse.json({ ok: true });
+  if (parsed.data.honeypot) return NextResponse.json({ ok: true });
 
   const name = sanitize(parsed.data.name);
   const message = sanitize(parsed.data.message);
@@ -71,16 +73,18 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!credentials()) {
+  if (!storeConfigured()) {
     return NextResponse.json({ error: "not-configured", configured: false }, { status: 503 });
   }
 
+  const wish: Wish = { name, message, at: new Date().toISOString() };
+
   try {
-    await appendRow(TABS.wishes, [new Date().toISOString(), name, message, "FALSE"]);
-    // The new wish should show up immediately, not after the cache expires.
+    await putEntry(KEYS.wishes, wish);
+    // The new wish should appear at once, not when the cache happens to expire.
     cache = null;
 
-    return NextResponse.json({ ok: true, wish: { name, message, at: new Date().toISOString() } });
+    return NextResponse.json({ ok: true, wish });
   } catch (error) {
     console.error("Wish write failed", error);
     return NextResponse.json(

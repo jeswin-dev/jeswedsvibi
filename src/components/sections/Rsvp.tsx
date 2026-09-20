@@ -152,9 +152,9 @@ export function Rsvp() {
 
               <Button
                 type="submit"
-                tone="outlineDark"
+                tone="solidDark"
                 disabled={status === "sending"}
-                className="mt-2 w-full border-champagne/60 bg-forest text-ivory hover:bg-forest/90"
+                className="mt-2 w-full"
               >
                 {status === "sending" ? "Sending…" : "Send our reply"}
               </Button>

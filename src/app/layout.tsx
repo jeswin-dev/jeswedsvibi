@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 
 import { EnvelopeIntro } from "@/components/shell/EnvelopeIntro";
-import { FloatingRsvp } from "@/components/shell/FloatingRsvp";
 import { Grain } from "@/components/shell/Grain";
 import { IntroProvider } from "@/components/shell/intro-context";
 import { MusicToggle } from "@/components/shell/MusicToggle";
@@ -61,7 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <EnvelopeIntro />
             {children}
             <MusicToggle />
-            <FloatingRsvp />
+            {/* The floating pill returns with the RSVP fold; it has nothing to
+                point at while that section is parked. */}
           </IntroProvider>
         </SmoothScroll>
         <Grain />

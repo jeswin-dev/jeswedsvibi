@@ -18,6 +18,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 export function Wishes() {
   const [list, setList] = useState<Wish[]>([]);
+  const [loaded, setLoaded] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
@@ -26,9 +27,13 @@ export function Wishes() {
     fetch("/api/wishes")
       .then((response) => response.json())
       .then((body) => {
-        if (active && Array.isArray(body.wishes)) setList(body.wishes);
+        if (!active) return;
+        if (Array.isArray(body.wishes)) setList(body.wishes);
+        setLoaded(true);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (active) setLoaded(true);
+      });
     return () => {
       active = false;
     };
@@ -84,37 +89,43 @@ export function Wishes() {
 
   return (
     <>
-      <SectionHeading eyebrow={wishes.eyebrow} title={wishes.title} />
+      <SectionHeading eyebrow={wishes.eyebrow} title={wishes.title} tone="ivory" />
 
       <Reveal delay={0.15}>
-        <p className="mx-auto mt-8 max-w-sm text-center text-sm leading-relaxed text-ivory/65">
+        <p className="mx-auto mt-8 max-w-sm text-center text-sm leading-relaxed text-forest/65">
           {wishes.note}
         </p>
       </Reveal>
 
-      <form onSubmit={onSubmit} className="mx-auto mt-10 w-full max-w-md" noValidate>
+      <form onSubmit={onSubmit} className="relative mx-auto mt-10 w-full max-w-md" noValidate>
         <Honeypot name="website" />
 
-        <div className="flex flex-col gap-4 [&_.label]:text-gold/70 [&_input]:border-gold/30 [&_input]:bg-emerald-mid/25 [&_input]:text-ivory [&_input]:placeholder:text-ivory/35 [&_textarea]:border-gold/30 [&_textarea]:bg-emerald-mid/25 [&_textarea]:text-ivory [&_textarea]:placeholder:text-ivory/35">
+        <div className="flex flex-col gap-4">
           <Field label="Your name">
             <TextInput name="name" autoComplete="name" required placeholder="Full name" />
           </Field>
           <Field label="Your wish">
-            <TextArea name="message" rows={3} required maxLength={280} placeholder="A line for them…" />
+            <TextArea
+              name="message"
+              rows={3}
+              required
+              maxLength={280}
+              placeholder="A line for them…"
+            />
           </Field>
         </div>
 
-        <Button type="submit" disabled={status === "sending"} className="mt-5 w-full">
+        <Button type="submit" tone="solidDark" disabled={status === "sending"} className="mt-5 w-full">
           {status === "sending" ? "Sending…" : "Leave your wish"}
         </Button>
 
         {message ? (
-          <p role="alert" className="mt-4 text-center text-sm text-ivory/70">
+          <p role="alert" className="mt-4 text-center text-sm text-forest/75">
             {message}
           </p>
         ) : null}
         {status === "sent" && !message ? (
-          <p className="mt-4 text-center font-display text-lg text-gold-light italic">
+          <p className="mt-4 text-center font-display text-lg text-forest italic">
             Thank you — they will treasure that.
           </p>
         ) : null}
@@ -130,13 +141,13 @@ export function Wishes() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease, delay: Math.min(index * 0.05, 0.4) }}
-                className="relative border border-gold/20 bg-emerald-mid/20 p-5"
+                className="relative border border-champagne/25 bg-ivory-lift/70 p-5"
               >
                 <span
-                  className="absolute -top-px -left-px size-2 border-t border-l border-gold/60"
+                  className="absolute -top-px -left-px size-2 border-t border-l border-champagne/70"
                   aria-hidden
                 />
-                <p className="font-display text-lg leading-snug text-ivory/90 italic">
+                <p className="font-display text-lg leading-snug text-forest/90 italic">
                   &ldquo;{wish.message}&rdquo;
                 </p>
                 <p className="label mt-4 text-[0.5625rem] text-champagne">— {wish.name}</p>
@@ -144,6 +155,10 @@ export function Wishes() {
             ))}
           </AnimatePresence>
         </ul>
+      ) : loaded ? (
+        <p className="mt-14 text-center font-display text-lg text-forest/45 italic md:mt-16">
+          No wishes yet — yours would be the first.
+        </p>
       ) : null}
     </>
   );
