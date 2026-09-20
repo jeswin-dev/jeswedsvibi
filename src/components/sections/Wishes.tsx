@@ -14,10 +14,13 @@ import { wishSchema } from "@/lib/schemas";
 
 const { wishes } = invitation;
 
+const PAGE = 10;
+
 type Status = "idle" | "sending" | "sent" | "error";
 
 export function Wishes() {
   const [list, setList] = useState<Wish[]>([]);
+  const [visible, setVisible] = useState(PAGE);
   const [loaded, setLoaded] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -132,41 +135,54 @@ export function Wishes() {
       </form>
 
       {list.length > 0 ? (
-        <ul className="mt-14 grid gap-4 sm:grid-cols-2 md:mt-16 md:grid-cols-3">
-          <AnimatePresence initial={false}>
-            {list.map((wish, index) => (
-              <motion.li
-                key={`${wish.name}-${wish.at}-${index}`}
-                layout
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease, delay: Math.min(index * 0.05, 0.4) }}
-                className="relative border border-champagne/30 bg-ivory-lift/80 p-5 shadow-[inset_0_0_0_1px_rgba(176,141,87,0.12)]"
+        <>
+          <ul className="mt-14 grid gap-4 sm:grid-cols-2 md:mt-16 md:grid-cols-3">
+            <AnimatePresence initial={false}>
+              {list.slice(0, visible).map((wish, index) => (
+                <motion.li
+                  key={`${wish.name}-${wish.at}`}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease, delay: Math.min(index * 0.05, 0.4) }}
+                  className="relative border border-champagne/30 bg-ivory-lift/80 p-5 shadow-[inset_0_0_0_1px_rgba(176,141,87,0.12)]"
+                >
+                  <span
+                    className="absolute -top-px -left-px size-2.5 border-t border-l border-champagne/80"
+                    aria-hidden
+                  />
+                  <span
+                    className="absolute -top-px -right-px size-2.5 border-t border-r border-champagne/80"
+                    aria-hidden
+                  />
+                  <span
+                    className="absolute -bottom-px -left-px size-2.5 border-b border-l border-champagne/80"
+                    aria-hidden
+                  />
+                  <span
+                    className="absolute -right-px -bottom-px size-2.5 border-b border-r border-champagne/80"
+                    aria-hidden
+                  />
+                  <p className="font-display text-lg leading-snug text-forest/90 italic">
+                    &ldquo;{wish.message}&rdquo;
+                  </p>
+                  <p className="label mt-4 text-[0.5625rem] text-champagne">— {wish.name}</p>
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </ul>
+          {visible < list.length ? (
+            <div className="mt-8 flex justify-center md:mt-10">
+              <Button
+                type="button"
+                tone="outlineDark"
+                onClick={() => setVisible((count) => Math.min(count + PAGE, list.length))}
               >
-                <span
-                  className="absolute -top-px -left-px size-2.5 border-t border-l border-champagne/80"
-                  aria-hidden
-                />
-                <span
-                  className="absolute -top-px -right-px size-2.5 border-t border-r border-champagne/80"
-                  aria-hidden
-                />
-                <span
-                  className="absolute -bottom-px -left-px size-2.5 border-b border-l border-champagne/80"
-                  aria-hidden
-                />
-                <span
-                  className="absolute -right-px -bottom-px size-2.5 border-b border-r border-champagne/80"
-                  aria-hidden
-                />
-                <p className="font-display text-lg leading-snug text-forest/90 italic">
-                  &ldquo;{wish.message}&rdquo;
-                </p>
-                <p className="label mt-4 text-[0.5625rem] text-champagne">— {wish.name}</p>
-              </motion.li>
-            ))}
-          </AnimatePresence>
-        </ul>
+                Show more
+              </Button>
+            </div>
+          ) : null}
+        </>
       ) : loaded ? (
         <p className="mt-14 text-center font-display text-lg text-forest/45 italic md:mt-16">
           No wishes yet — yours would be the first.
