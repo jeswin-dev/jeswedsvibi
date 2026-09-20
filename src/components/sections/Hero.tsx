@@ -11,14 +11,15 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SplitText } from "@/components/ui/SplitText";
 import { Crest, Flourish } from "@/components/ui/ornaments";
 import { Bokeh, Damask, Velvet } from "@/components/ui/textures";
-import { invitation } from "@/content/invitation";
+import { invitation, primaryOccasion, type Edition } from "@/content/invitation";
 import { ease } from "@/lib/motion";
 
-const { couple, date, hero, photo, venue } = invitation;
+const { couple, hero, photo } = invitation;
 
-export function Hero() {
+export function Hero({ edition = "engagement" }: { edition?: Edition }) {
   const { opened } = useIntro();
   const reduceMotion = useGentleMotion();
+  const occasion = primaryOccasion(edition);
 
   return (
     <section className="relative isolate h-screen-safe w-full overflow-hidden bg-emerald">
@@ -103,10 +104,10 @@ export function Hero() {
         <Reveal active={opened} delay={1.7}>
           <div className="mt-6 text-center [@media(max-height:520px)]:mt-3">
             <p className="label text-ivory/80 sm:text-xs">
-              {date.dayOfWeek} · {date.display}
+              {occasion.date.dayOfWeek} · {occasion.date.display}
             </p>
             <p className="mt-2 font-display text-base italic text-champagne sm:text-lg md:text-xl">
-              {venue.area}, {venue.city}
+              {occasion.venue.area}, {occasion.venue.city}
             </p>
           </div>
         </Reveal>

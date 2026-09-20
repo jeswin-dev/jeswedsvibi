@@ -6,12 +6,10 @@ import { useGentleMotion } from "@/hooks/useGentleMotion";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { invitation } from "@/content/invitation";
+import { primaryOccasion, type Edition } from "@/content/invitation";
 import { useCountdown } from "@/hooks/useCountdown";
-import { googleCalendarUrl, icsDataUrl } from "@/lib/calendar";
+import { googleCalendarUrl, icsDataUrl, icsFileName } from "@/lib/calendar";
 import { ease } from "@/lib/motion";
-
-const { date } = invitation;
 
 function Digit({ value, label, delay }: { value: number; label: string; delay: number }) {
   const reduceMotion = useGentleMotion();
@@ -52,8 +50,11 @@ function Digit({ value, label, delay }: { value: number; label: string; delay: n
   );
 }
 
-export function Countdown() {
-  const { days, hours, minutes, seconds, isPast, isToday, ready } = useCountdown(date.iso);
+export function Countdown({ edition = "engagement" }: { edition?: Edition }) {
+  const occasion = primaryOccasion(edition);
+  const { days, hours, minutes, seconds, isPast, isToday, ready } = useCountdown(
+    occasion.date.iso,
+  );
 
   return (
     <>
@@ -94,12 +95,12 @@ export function Countdown() {
 
       <Reveal delay={0.3}>
         <div className="mt-14 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-16">
-          <ButtonLink href={googleCalendarUrl()} target="_blank" rel="noreferrer noopener">
+          <ButtonLink href={googleCalendarUrl(occasion)} target="_blank" rel="noreferrer noopener">
             Add to Google Calendar
           </ButtonLink>
           <ButtonLink
-            href={icsDataUrl()}
-            download="jesme-and-vibin-engagement.ics"
+            href={icsDataUrl(occasion)}
+            download={icsFileName(edition)}
             tone="outlineLight"
           >
             Download invite

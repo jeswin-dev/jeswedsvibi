@@ -6,12 +6,17 @@ import { FoilText } from "@/components/ui/FoilText";
 import { Monogram } from "@/components/ui/Monogram";
 import { Reveal } from "@/components/ui/Reveal";
 import { Flourish } from "@/components/ui/ornaments";
-import { invitation } from "@/content/invitation";
+import { invitation, primaryOccasion, programme, type Edition } from "@/content/invitation";
 
-const { contact, couple, date, footer, meta, venue } = invitation;
+const { contact, couple, footer } = invitation;
 
-export function Footer() {
+export function Footer({ edition = "engagement" }: { edition?: Edition }) {
   const [copied, setCopied] = useState(false);
+  const occasion = primaryOccasion(edition);
+  const meta =
+    edition === "wedding"
+      ? { title: invitation.meta.weddingTitle, description: invitation.meta.weddingDescription }
+      : invitation.meta;
 
   async function onShare() {
     const url = window.location.href;
@@ -50,10 +55,22 @@ export function Footer() {
             {couple.one.first} &amp; {couple.two.first}
           </FoilText>
         </p>
-        <p className="label mt-4 text-champagne">{date.display}</p>
-        <p className="mt-2 text-sm text-ivory/55">
-          {venue.name}, {venue.area}
-        </p>
+        {edition === "wedding" ? (
+          <div className="mt-4 flex flex-col gap-2">
+            {programme.map((item) => (
+              <p key={item.key} className="text-sm text-ivory/55">
+                {item.label} · {item.date.display}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <>
+            <p className="label mt-4 text-champagne">{occasion.date.display}</p>
+            <p className="mt-2 text-sm text-ivory/55">
+              {occasion.venue.name}, {occasion.venue.area}
+            </p>
+          </>
+        )}
       </Reveal>
 
       <Reveal delay={0.25}>

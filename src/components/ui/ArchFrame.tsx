@@ -14,6 +14,7 @@ type ArchFrameProps = {
   priority?: boolean;
   sizes?: string;
   kenBurns?: boolean;
+  objectPosition?: string;
 };
 
 /**
@@ -65,6 +66,7 @@ export function ArchFrame({
   priority = false,
   sizes = "(max-width: 768px) 78vw, 30vw",
   kenBurns = false,
+  objectPosition = "center 34%",
 }: ArchFrameProps) {
   const reduceMotion = useGentleMotion();
   const drift = kenBurns && !reduceMotion;
@@ -82,9 +84,9 @@ export function ArchFrame({
         }}
       >
         <motion.div
-          className="absolute inset-0"
+          className="absolute inset-0 origin-[center_34%]"
           initial={drift ? { scale: 1.02 } : false}
-          animate={drift ? { scale: 1.12 } : undefined}
+          animate={drift ? { scale: 1.08 } : undefined}
           transition={{ duration: 24, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
         >
           <Image
@@ -94,6 +96,7 @@ export function ArchFrame({
             priority={priority}
             sizes={sizes}
             className="object-cover"
+            style={{ objectPosition }}
           />
         </motion.div>
 
@@ -107,15 +110,19 @@ export function ArchFrame({
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-emerald/25 mix-blend-soft-light"
+          className="pointer-events-none absolute inset-0 bg-emerald/15 mix-blend-multiply"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-emerald/50 via-emerald/15 to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-emerald/30 via-transparent to-transparent"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-emerald/40 via-emerald/8 to-transparent"
           aria-hidden
         />
         <motion.div
-          className="pointer-events-none absolute inset-0 shadow-[inset_0_0_80px_28px_rgba(10,31,26,0.55)]"
+          className="pointer-events-none absolute inset-0 shadow-[inset_0_0_80px_28px_rgba(10,31,26,0.38)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.6, ease }}

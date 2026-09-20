@@ -5,9 +5,9 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SplitText } from "@/components/ui/SplitText";
 import { Flourish } from "@/components/ui/ornaments";
-import { invitation } from "@/content/invitation";
+import { invitation, programme, type Edition } from "@/content/invitation";
 
-const { couple, date, families, invite, venue } = invitation;
+const { couple, families, invite } = invitation;
 
 type Family = { relation: string; parents: string; house: string };
 
@@ -35,14 +35,20 @@ function FamilyBlock({ name, side, delay }: { name: string; side: Family; delay:
   );
 }
 
-export function Invitation() {
+export function Invitation({ edition = "engagement" }: { edition?: Edition }) {
+  const isWedding = edition === "wedding";
+
   return (
     <>
-      <SectionHeading eyebrow={invite.eyebrow} tone="ivory" numeral="I" />
+      <SectionHeading
+        eyebrow={isWedding ? invite.weddingEyebrow : invite.eyebrow}
+        tone="ivory"
+        numeral="I"
+      />
 
       <Reveal delay={0.1}>
         <p className="mx-auto mt-10 max-w-xl text-center font-display text-lg leading-relaxed text-forest/75 italic sm:text-xl">
-          {invite.lead}
+          {isWedding ? invite.weddingLead : invite.lead}
         </p>
       </Reveal>
 
@@ -65,19 +71,41 @@ export function Invitation() {
         <Flourish tone="champagne" className="mx-auto mt-14 h-5 w-56 md:mt-20 md:w-72" />
       </Reveal>
 
-      <div className="mt-10 text-center">
-        <p className="font-display text-[clamp(1.2rem,4.5vw,1.75rem)] leading-snug font-light text-forest">
-          <SplitText text={`${date.dayOfWeek}, ${date.display}`} by="word" />
-        </p>
-        <Reveal delay={0.2}>
-          <p className="label mt-4 text-champagne">
-            {date.timeShort} · {venue.name}, {venue.area}
-          </p>
-          <p className="mx-auto mt-8 max-w-md font-display text-base leading-relaxed text-forest/65 italic">
+      {isWedding ? (
+        <div className="mx-auto mt-10 flex max-w-lg flex-col gap-6 text-center">
+          {programme.map((occasion) => (
+            <div key={occasion.key}>
+              <p className="label text-champagne">{occasion.label}</p>
+              <p className="mt-2 font-display text-lg leading-snug text-forest">
+                {occasion.date.dayOfWeek}, {occasion.date.display}
+              </p>
+              <p className="mt-1 text-sm text-forest/60">
+                {occasion.date.timeShort} · {occasion.venue.name}, {occasion.venue.area}
+              </p>
+            </div>
+          ))}
+          <p className="mx-auto mt-2 max-w-md font-display text-base leading-relaxed text-forest/65 italic">
             {invite.closing}
           </p>
-        </Reveal>
-      </div>
+        </div>
+      ) : (
+        <div className="mt-10 text-center">
+          <p className="font-display text-[clamp(1.2rem,4.5vw,1.75rem)] leading-snug font-light text-forest">
+            <SplitText
+              text={`${invitation.date.dayOfWeek}, ${invitation.date.display}`}
+              by="word"
+            />
+          </p>
+          <Reveal delay={0.2}>
+            <p className="label mt-4 text-champagne">
+              {invitation.date.timeShort} · {invitation.venue.name}, {invitation.venue.area}
+            </p>
+            <p className="mx-auto mt-8 max-w-md font-display text-base leading-relaxed text-forest/65 italic">
+              {invite.closing}
+            </p>
+          </Reveal>
+        </div>
+      )}
     </>
   );
 }

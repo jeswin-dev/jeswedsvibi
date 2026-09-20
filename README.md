@@ -15,7 +15,10 @@ npm run build   # production build
 
 ## Changing any detail
 
-Everything — names, the date, the venue, the families, the verse, the contact number — lives
+The home page is the engagement invitation. `/wedding` is the same invitation with
+Madhuramvepp and the wedding added.
+
+Everything — names, the dates, the venues, the families, the verse, the contact number — lives
 in one file: [`src/content/invitation.ts`](./src/content/invitation.ts). Edit there and the
 whole site updates.
 
@@ -24,10 +27,8 @@ guest in Kochi and one in Toronto alike.
 
 ## The photograph
 
-Drop the real photo into `public/images/` and point `photo.src` at it. Portrait orientation
-works best, since it sits inside a tall arch.
-
-Until then the arch shows `couple-placeholder.jpg`.
+The hero arch shows `public/images/jesme-vibin.jpg`. To swap it, drop a portrait photo there
+and point `photo.src` at it in the content file.
 
 ## Music
 
@@ -86,11 +87,11 @@ open it.
 ## Build phases
 
 Live: wax-seal intro, hero, invitation, countdown, verse, venue and map, wishes wall, footer,
-share card.
+share card. `/wedding` adds Madhuramvepp and the wedding.
 
 Parked but built — one line in `src/app/page.tsx` away from returning:
 
 - The **RSVP fold** (`src/components/sections/Rsvp.tsx`), its route handler, and the floating
   RSVP pill in `src/app/layout.tsx`.
 
-Remaining: the real photograph, a custom domain, and a pass on real devices.
+Remaining: a custom domain, and a pass on real devices.
