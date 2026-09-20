@@ -23,11 +23,10 @@ export function InvitationHome({ edition = "engagement" }: { edition?: Edition }
       </Section>
 
       <ArchDivider from="ivory" to="emerald" />
-
-      <Section id="countdown" framed>
-        <Countdown edition={edition} />
+      <Section id="venue">
+        {full ? <Celebrations /> : <Venue />}
       </Section>
-
+      
       <ArchDivider from="emerald" to="ivory" />
 
       <Section tone="ivory" compact framed>
@@ -38,8 +37,9 @@ export function InvitationHome({ edition = "engagement" }: { edition?: Edition }
 
       <EveningBand />
 
-      <Section id="venue">
-        {full ? <Celebrations /> : <Venue />}
+      
+      <Section id="countdown" framed>
+        <Countdown edition={edition} />
       </Section>
 
       <ArchDivider from="emerald" to="ivory" />
