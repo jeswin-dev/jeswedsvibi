@@ -130,7 +130,7 @@ export const invitation = {
   couple: {
     // `first` is what the hero shows; `full` is for the formal wording.
     one: { first: "Jesme", full: "Dr Jesme Eldho", initial: "J" },
-    two: { first: "Vibin", full: "Vibin Paul", initial: "V" },
+    two: { first: "Vibin", full: "Vibin Kurian Paul", initial: "V" },
   },
 
   // The home page is the engagement; `/wedding` adds Madhuramvepp and the wedding.
@@ -163,7 +163,7 @@ export const invitation = {
       house: "Panthalikudy House, Kuruppampady",
     },
     two: {
-      name: "Vibin Paul",
+      name: "Vibin Kurian Paul",
       relation: "Son of",
       parents: "Mr. Paul Pottackal & Mrs. Kumary Paul",
       house: "Pottackal House, Mudakuzha",
