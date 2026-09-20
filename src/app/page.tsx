@@ -1,4 +1,5 @@
 import { Countdown } from "@/components/sections/Countdown";
+import { EveningBand } from "@/components/sections/EveningBand";
 import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Invitation } from "@/components/sections/Invitation";
@@ -24,27 +25,25 @@ export default function Page() {
 
       <ArchDivider from="ivory" to="emerald" />
 
-      <Section id="countdown">
+      <Section id="countdown" framed>
         <Countdown />
       </Section>
 
       <ArchDivider from="emerald" to="ivory" />
 
-      <Section tone="ivory" compact>
+      <Section tone="ivory" compact framed>
         <Verse />
       </Section>
 
       <ArchDivider from="ivory" to="emerald" />
 
-      {/* <Atmosphere /> */}
+      <EveningBand />
 
       <Section id="venue">
         <Venue />
       </Section>
 
       <ArchDivider from="emerald" to="ivory" />
-
-      {/* RSVP is parked here when it returns. */}
 
       <Section tone="ivory" framed id="wishes">
         <Wishes />

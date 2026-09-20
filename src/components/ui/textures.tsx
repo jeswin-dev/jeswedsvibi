@@ -75,6 +75,66 @@ const PAPER = `url("data:image/svg+xml;utf8,${encodeURIComponent(
   </svg>`,
 )}")`;
 
+/**
+ * Ivory marble under the paper grain. Very faint on purpose — it should register
+ * as depth in the surface, not as a photograph of stone.
+ */
+export function Marble({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 opacity-45 mix-blend-multiply ${className}`}
+      style={{
+        backgroundImage: "url('/images/marble-ivory.jpg')",
+        backgroundSize: "760px auto",
+      }}
+      aria-hidden
+    />
+  );
+}
+
+/** Photographed pile, kept very quiet so it reads as cloth rather than a photo. */
+export function Velvet({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 ${className}`}
+      style={{
+        backgroundImage: "url('/images/velvet-emerald.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      aria-hidden
+    />
+  );
+}
+
+/** Soft candlelight orbs. Sits over dark sections and never over type. */
+export function Bokeh({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 ${className}`}
+      style={{
+        backgroundImage: "url('/images/bokeh-gold.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+      }}
+      aria-hidden
+    />
+  );
+}
+
+export function GoldLeaf({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`pointer-events-none absolute inset-0 ${className}`}
+      style={{
+        backgroundImage: "url('/images/gold-foil.jpg')",
+        backgroundSize: "420px auto",
+      }}
+      aria-hidden
+    />
+  );
+}
+
 /** Fibrous mottling so the ivory sections read as paper. */
 export function Paper({ className = "" }: { className?: string }) {
   return (

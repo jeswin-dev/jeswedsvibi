@@ -89,7 +89,7 @@ export function Wishes() {
 
   return (
     <>
-      <SectionHeading eyebrow={wishes.eyebrow} title={wishes.title} tone="ivory" />
+      <SectionHeading eyebrow={wishes.eyebrow} title={wishes.title} tone="ivory" numeral="V" />
 
       <Reveal delay={0.15}>
         <p className="mx-auto mt-8 max-w-sm text-center text-sm leading-relaxed text-forest/65">
@@ -141,10 +141,22 @@ export function Wishes() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease, delay: Math.min(index * 0.05, 0.4) }}
-                className="relative border border-champagne/25 bg-ivory-lift/70 p-5"
+                className="relative border border-champagne/30 bg-ivory-lift/80 p-5 shadow-[inset_0_0_0_1px_rgba(176,141,87,0.12)]"
               >
                 <span
-                  className="absolute -top-px -left-px size-2 border-t border-l border-champagne/70"
+                  className="absolute -top-px -left-px size-2.5 border-t border-l border-champagne/80"
+                  aria-hidden
+                />
+                <span
+                  className="absolute -top-px -right-px size-2.5 border-t border-r border-champagne/80"
+                  aria-hidden
+                />
+                <span
+                  className="absolute -bottom-px -left-px size-2.5 border-b border-l border-champagne/80"
+                  aria-hidden
+                />
+                <span
+                  className="absolute -right-px -bottom-px size-2.5 border-b border-r border-champagne/80"
                   aria-hidden
                 />
                 <p className="font-display text-lg leading-snug text-forest/90 italic">

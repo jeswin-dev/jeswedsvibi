@@ -24,7 +24,7 @@ export function Venue() {
 
   return (
     <>
-      <SectionHeading eyebrow="The Venue" title={venue.name} />
+      <SectionHeading eyebrow="The Venue" title={venue.name} numeral="IV" />
 
       <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-[1fr_1.15fr] md:items-center md:gap-14">
         <div className="text-center md:text-left">
@@ -67,10 +67,14 @@ export function Venue() {
         <Reveal delay={0.15}>
           <div ref={mapRef} className="relative">
             <div
-              className="pointer-events-none absolute -inset-2 border border-gold/15 sm:-inset-3"
+              className="pointer-events-none absolute -inset-3 border border-gold/20 sm:-inset-4"
               aria-hidden
             />
-            <div className="relative aspect-4/3 w-full overflow-hidden border border-gold/40 bg-emerald-mid/30 md:aspect-square">
+            <div
+              className="pointer-events-none absolute -inset-1.5 border border-gold/40"
+              aria-hidden
+            />
+            <div className="relative aspect-4/3 w-full overflow-hidden border border-gold/50 bg-emerald-mid/30 md:aspect-square">
               {nearMap ? (
                 <iframe
                   src={embedSrc}

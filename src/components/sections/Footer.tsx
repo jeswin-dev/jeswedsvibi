@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 
-import { GoldRule } from "@/components/ui/GoldRule";
+import { FoilText } from "@/components/ui/FoilText";
 import { Monogram } from "@/components/ui/Monogram";
 import { Reveal } from "@/components/ui/Reveal";
+import { Flourish } from "@/components/ui/ornaments";
 import { invitation } from "@/content/invitation";
 
 const { contact, couple, date, footer, meta, venue } = invitation;
@@ -44,8 +45,10 @@ export function Footer() {
       </Reveal>
 
       <Reveal delay={0.15}>
-        <p className="mt-6 font-display text-2xl leading-snug font-light text-ivory sm:text-3xl">
-          {couple.one.first} &amp; {couple.two.first}
+        <p className="mt-6 font-display text-2xl leading-snug font-light sm:text-3xl">
+          <FoilText>
+            {couple.one.first} &amp; {couple.two.first}
+          </FoilText>
         </p>
         <p className="label mt-4 text-champagne">{date.display}</p>
         <p className="mt-2 text-sm text-ivory/55">
@@ -53,7 +56,9 @@ export function Footer() {
         </p>
       </Reveal>
 
-      <GoldRule ornament className="mt-9 w-32" delay={0.25} />
+      <Reveal delay={0.25}>
+        <Flourish className="mt-9 h-5 w-40 sm:w-52" />
+      </Reveal>
 
       <Reveal delay={0.3}>
         <button

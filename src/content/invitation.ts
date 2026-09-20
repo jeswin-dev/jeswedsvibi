@@ -27,7 +27,7 @@ export const invitation = {
     addressLines: [
       "Seema Auditorium Road, Pathipalam",
       "Perumbavoor, Ernakulam",
-      "Kerala 683500",
+      "Kerala 683542",
     ],
     // Resolved from the shared Google Maps pin, so directions land exactly right.
     coords: { lat: 10.1094907, lng: 76.4767437 },

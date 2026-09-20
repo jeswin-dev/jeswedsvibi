@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
-import { Damask, Paper } from "./textures";
+import { FramedCorners } from "./ornaments";
+import { Bokeh, Damask, Marble, Paper, Velvet } from "./textures";
 
 type Tone = "emerald" | "ivory";
 
@@ -35,35 +36,49 @@ export function Section({
     >
       {tone === "emerald" ? (
         <>
-          <Damask className="opacity-[0.05]" scale={118} />
+          <Velvet className="opacity-30 mix-blend-overlay" />
+          <Damask className="opacity-[0.07]" scale={118} />
+          <Bokeh className="opacity-20 mix-blend-screen [mask-image:linear-gradient(to_bottom,black,transparent_42%)]" />
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_55%_at_50%_0%,rgba(27,77,62,0.55),transparent_70%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_55%_at_50%_0%,rgba(27,77,62,0.45),transparent_70%)]"
             aria-hidden
           />
           {/* Vignette: keeps the corners from feeling like a flat rectangle. */}
           <div
-            className="pointer-events-none absolute inset-0 shadow-[inset_0_0_140px_40px_rgba(10,31,26,0.55)]"
+            className="pointer-events-none absolute inset-0 shadow-[inset_0_0_160px_48px_rgba(10,31,26,0.62)]"
             aria-hidden
           />
         </>
       ) : (
         <>
-          <Damask className="opacity-[0.035]" scale={118} tone="forest" />
+          <Marble />
+          <Damask className="opacity-[0.04]" scale={118} tone="forest" />
           <Paper />
           <div
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(75%_50%_at_50%_10%,rgba(255,255,255,0.7),transparent_70%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(75%_50%_at_50%_10%,rgba(255,255,255,0.55),transparent_70%)]"
             aria-hidden
           />
         </>
       )}
 
       {framed ? (
-        <div
-          className={`pointer-events-none absolute inset-4 border sm:inset-6 md:inset-8 ${
-            tone === "emerald" ? "border-gold/20" : "border-champagne/25"
-          }`}
-          aria-hidden
-        />
+        <>
+          {/* A double rule and ornamented corners: the difference between a web
+              section and a printed card. */}
+          <div
+            className={`pointer-events-none absolute inset-4 border sm:inset-6 ${
+              tone === "emerald" ? "border-gold/25" : "border-champagne/30"
+            }`}
+            aria-hidden
+          />
+          <div
+            className={`pointer-events-none absolute inset-[1.375rem] border sm:inset-[1.875rem] ${
+              tone === "emerald" ? "border-gold/10" : "border-champagne/15"
+            }`}
+            aria-hidden
+          />
+          <FramedCorners tone={tone === "emerald" ? "gold" : "champagne"} />
+        </>
       ) : null}
 
       <div
@@ -95,7 +110,7 @@ export function ArchDivider({ from, to }: ArchDividerProps) {
   const path = "M0 100C22 100 26 0 50 0C74 0 78 100 100 100Z";
 
   return (
-    <div className={`relative h-14 w-full md:h-20 ${surface[from]}`} aria-hidden>
+    <div className={`relative h-16 w-full md:h-24 ${surface[from]}`} aria-hidden>
       <svg
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
@@ -106,11 +121,19 @@ export function ArchDivider({ from, to }: ArchDividerProps) {
           d={path}
           fill="none"
           stroke="#c9a227"
-          strokeOpacity="0.3"
-          strokeWidth="1"
+          strokeOpacity="0.45"
+          strokeWidth="1.25"
           vectorEffect="non-scaling-stroke"
         />
       </svg>
+      {/* A foil diamond at the arch's crown, so the join feels jewelled. */}
+      <span
+        className="absolute top-0 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold/70"
+        style={{
+          backgroundImage: "url('/images/gold-foil.jpg')",
+          backgroundSize: "cover",
+        }}
+      />
     </div>
   );
 }

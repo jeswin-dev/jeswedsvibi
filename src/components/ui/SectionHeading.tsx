@@ -1,14 +1,17 @@
 "use client";
 
-import { GoldRule } from "./GoldRule";
+import { FoilText } from "./FoilText";
 import { Reveal } from "./Reveal";
-import { SplitText } from "./SplitText";
+import { Crest, Flourish } from "./ornaments";
 
 type SectionHeadingProps = {
   eyebrow: string;
   title?: string;
   className?: string;
   tone?: "emerald" | "ivory";
+  /** A roman numeral gives the page the structure of a printed programme. */
+  numeral?: string;
+  crest?: boolean;
 };
 
 export function SectionHeading({
@@ -16,22 +19,54 @@ export function SectionHeading({
   title,
   className = "",
   tone = "emerald",
+  numeral,
+  crest = true,
 }: SectionHeadingProps) {
+  const onDark = tone === "emerald";
+
   return (
     <div className={`flex flex-col items-center text-center ${className}`}>
-      <Reveal>
-        <p className={`label ${tone === "emerald" ? "text-gold/70" : "text-champagne"}`}>
-          {eyebrow}
-        </p>
+      {crest ? (
+        <Reveal>
+          <Crest
+            tone="gold"
+            className="mb-5 h-8 w-[4.5rem] opacity-90 sm:h-10 sm:w-[5.5rem]"
+          />
+        </Reveal>
+      ) : null}
+
+      {numeral ? (
+        <Reveal delay={0.05}>
+          <span
+            className={`label mb-4 flex items-center gap-3 text-[0.5625rem] ${
+              onDark ? "text-gold/55" : "text-champagne/70"
+            }`}
+          >
+            <span className={`h-px w-5 ${onDark ? "bg-gold/35" : "bg-champagne/40"}`} />
+            {numeral}
+            <span className={`h-px w-5 ${onDark ? "bg-gold/35" : "bg-champagne/40"}`} />
+          </span>
+        </Reveal>
+      ) : null}
+
+      <Reveal delay={0.1}>
+        <p className={`label ${onDark ? "text-gold/70" : "text-champagne"}`}>{eyebrow}</p>
       </Reveal>
 
       {title ? (
-        <h2 className="mt-5 font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-tight font-light">
-          <SplitText text={title} by="word" delay={0.15} />
-        </h2>
+        <Reveal delay={0.15}>
+          <h2 className="mt-5 font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-tight font-light">
+            <FoilText tone={onDark ? "gold" : "bronze"}>{title}</FoilText>
+          </h2>
+        </Reveal>
       ) : null}
 
-      <GoldRule ornament className="mt-6 w-32 sm:w-40" delay={0.35} />
+      <Reveal delay={0.3}>
+        <Flourish
+          tone={onDark ? "gold" : "champagne"}
+          className="mt-6 h-5 w-56 sm:w-72 md:w-80"
+        />
+      </Reveal>
     </div>
   );
 }

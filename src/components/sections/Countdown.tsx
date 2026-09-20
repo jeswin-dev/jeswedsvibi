@@ -19,12 +19,16 @@ function Digit({ value, label, delay }: { value: number; label: string; delay: n
 
   return (
     <Reveal delay={delay} className="flex flex-col items-center">
-      <span className="relative flex h-20 w-[4.25rem] items-center justify-center border border-gold/25 bg-emerald-mid/25 sm:h-24 sm:w-20 md:h-28 md:w-24">
-        {/* Corner ticks instead of a heavy frame. */}
-        <span className="absolute -top-px -left-px size-2 border-t border-l border-gold/70" />
-        <span className="absolute -top-px -right-px size-2 border-t border-r border-gold/70" />
-        <span className="absolute -bottom-px -left-px size-2 border-b border-l border-gold/70" />
-        <span className="absolute -right-px -bottom-px size-2 border-b border-r border-gold/70" />
+      <span className="relative flex h-20 w-[4.25rem] items-center justify-center border border-gold/35 bg-[linear-gradient(180deg,rgba(227,201,120,0.08),rgba(14,42,35,0.2))] sm:h-24 sm:w-20 md:h-28 md:w-24">
+        <span className="absolute -top-px -left-px size-2.5 border-t border-l border-gold/80" />
+        <span className="absolute -top-px -right-px size-2.5 border-t border-r border-gold/80" />
+        <span className="absolute -bottom-px -left-px size-2.5 border-b border-l border-gold/80" />
+        <span className="absolute -right-px -bottom-px size-2.5 border-b border-r border-gold/80" />
+        <span
+          className="pointer-events-none absolute inset-0 opacity-20 mix-blend-soft-light"
+          style={{ backgroundImage: "url('/images/gold-foil.jpg')", backgroundSize: "cover" }}
+          aria-hidden
+        />
 
         {/* Reduced motion shortens the flip rather than changing the markup,
             which would mismatch on hydration. */}
@@ -53,7 +57,11 @@ export function Countdown() {
 
   return (
     <>
-      <SectionHeading eyebrow="The Countdown" title={isPast ? "With gratitude" : "Counting down"} />
+      <SectionHeading
+        eyebrow="The Countdown"
+        title={isPast ? "With gratitude" : "Counting down"}
+        numeral="II"
+      />
 
       {isPast ? (
         <Reveal delay={0.2}>
