@@ -74,7 +74,7 @@ export function Countdown({ edition = "engagement" }: { edition?: Edition }) {
         <>
           {/* Reserve the row's height before the first tick so nothing jumps. */}
           <div
-            className="mt-12 flex items-start justify-center gap-2.5 sm:gap-4 md:mt-16"
+            className="mt-8 flex items-start justify-center gap-2.5 sm:gap-4 md:mt-16"
             style={{ visibility: ready ? "visible" : "hidden" }}
           >
             <Digit value={days} label="Days" delay={0} />
@@ -94,7 +94,7 @@ export function Countdown({ edition = "engagement" }: { edition?: Edition }) {
       )}
 
       <Reveal delay={0.3}>
-        <div className="mt-14 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-16">
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-16">
           <ButtonLink href={googleCalendarUrl(occasion)} target="_blank" rel="noreferrer noopener">
             Add to Google Calendar
           </ButtonLink>

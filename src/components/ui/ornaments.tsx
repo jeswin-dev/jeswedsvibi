@@ -117,10 +117,10 @@ export function CornerFiligree({ className, tone = "gold" }: OrnamentProps) {
 }
 
 const CORNERS = [
-  { key: "tl", position: "top-4 left-4 sm:top-6 sm:left-6", rotation: "rotate-0" },
-  { key: "tr", position: "top-4 right-4 sm:top-6 sm:right-6", rotation: "rotate-90" },
-  { key: "br", position: "bottom-4 right-4 sm:bottom-6 sm:right-6", rotation: "rotate-180" },
-  { key: "bl", position: "bottom-4 left-4 sm:bottom-6 sm:left-6", rotation: "-rotate-90" },
+  { key: "tl", position: "top-3 left-3 sm:top-6 sm:left-6", rotation: "rotate-0" },
+  { key: "tr", position: "top-3 right-3 sm:top-6 sm:right-6", rotation: "rotate-90" },
+  { key: "br", position: "bottom-3 right-3 sm:bottom-6 sm:right-6", rotation: "rotate-180" },
+  { key: "bl", position: "bottom-3 left-3 sm:bottom-6 sm:left-6", rotation: "-rotate-90" },
 ] as const;
 
 /** Places the corner ornament in all four corners of its nearest container. */

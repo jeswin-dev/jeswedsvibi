@@ -30,7 +30,7 @@ export function SectionHeading({
         <Reveal>
           <Crest
             tone="gold"
-            className="mb-5 h-8 w-[4.5rem] opacity-90 sm:h-10 sm:w-[5.5rem]"
+            className="mb-3.5 h-8 w-[4.5rem] opacity-90 sm:mb-5 sm:h-10 sm:w-[5.5rem]"
           />
         </Reveal>
       ) : null}
@@ -38,7 +38,7 @@ export function SectionHeading({
       {numeral ? (
         <Reveal delay={0.05}>
           <span
-            className={`label mb-4 flex items-center gap-3 text-[0.5625rem] ${
+            className={`label mb-3 flex items-center gap-3 text-[0.5625rem] sm:mb-4 ${
               onDark ? "text-gold/55" : "text-champagne/70"
             }`}
           >
@@ -55,7 +55,7 @@ export function SectionHeading({
 
       {title ? (
         <Reveal delay={0.15}>
-          <h2 className="mt-5 font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-tight font-light">
+          <h2 className="mt-3.5 font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-tight font-light sm:mt-5">
             <FoilText tone={onDark ? "gold" : "bronze"}>{title}</FoilText>
           </h2>
         </Reveal>
@@ -64,7 +64,7 @@ export function SectionHeading({
       <Reveal delay={0.3}>
         <Flourish
           tone={onDark ? "gold" : "champagne"}
-          className="mt-6 h-5 w-56 sm:w-72 md:w-80"
+          className="mt-5 h-5 w-56 sm:mt-6 sm:w-72 md:w-80"
         />
       </Reveal>
     </div>

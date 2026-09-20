@@ -66,13 +66,13 @@ export function Section({
           {/* A double rule and ornamented corners: the difference between a web
               section and a printed card. */}
           <div
-            className={`pointer-events-none absolute inset-4 border sm:inset-6 ${
+            className={`pointer-events-none absolute inset-3 border sm:inset-6 ${
               tone === "emerald" ? "border-gold/25" : "border-champagne/30"
             }`}
             aria-hidden
           />
           <div
-            className={`pointer-events-none absolute inset-[1.375rem] border sm:inset-[1.875rem] ${
+            className={`pointer-events-none absolute inset-[1.125rem] border sm:inset-[1.875rem] ${
               tone === "emerald" ? "border-gold/10" : "border-champagne/15"
             }`}
             aria-hidden
@@ -82,8 +82,8 @@ export function Section({
       ) : null}
 
       <div
-        className={`relative mx-auto w-full max-w-5xl px-6 sm:px-10 ${
-          compact ? "py-16 md:py-24" : "py-24 md:py-36"
+        className={`relative mx-auto w-full max-w-5xl px-5 sm:px-10 ${
+          compact ? "py-12 md:py-24" : "py-14 sm:py-20 md:py-36"
         }`}
       >
         {children}

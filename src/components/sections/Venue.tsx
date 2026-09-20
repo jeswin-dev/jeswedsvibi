@@ -27,17 +27,17 @@ function VenueCard({ occasion, delay = 0 }: { occasion: Occasion; delay?: number
   const { date, venue } = occasion;
 
   return (
-    <div className="grid gap-10 md:grid-cols-[1fr_1.15fr] md:items-center md:gap-14">
+    <div className="grid gap-8 md:grid-cols-[1fr_1.15fr] md:items-center md:gap-14">
       <div className="text-center md:text-left">
         <Reveal delay={delay}>
           <p className="label text-gold/75">{occasion.label}</p>
-          <h3 className="mt-3 font-display text-3xl leading-tight font-light text-ivory sm:text-4xl">
+          <h3 className="mt-2 font-display text-3xl leading-tight font-light text-ivory sm:mt-3 sm:text-4xl">
             {venue.name}
           </h3>
         </Reveal>
 
         <Reveal delay={delay + 0.08}>
-          <address className="mt-5 font-display text-xl leading-relaxed font-light text-ivory/90 not-italic sm:text-2xl">
+          <address className="mt-4 font-display text-xl leading-relaxed font-light text-ivory/90 not-italic sm:mt-5 sm:text-2xl">
             {venue.addressLines.map((line) => (
               <span key={line} className="block">
                 {line}
@@ -46,17 +46,17 @@ function VenueCard({ occasion, delay = 0 }: { occasion: Occasion; delay?: number
           </address>
         </Reveal>
 
-        <GoldRule className="mx-auto mt-7 w-24 md:mx-0" delay={delay + 0.15} />
+        <GoldRule className="mx-auto mt-5 w-24 md:mx-0 md:mt-7" delay={delay + 0.15} />
 
         <Reveal delay={delay + 0.2}>
-          <p className="label mt-7 text-gold/75">{date.dayOfWeek}</p>
+          <p className="label mt-5 text-gold/75 md:mt-7">{date.dayOfWeek}</p>
           <p className="mt-2 font-display text-lg text-ivory/85">
             {date.display} · {date.timeShort}
           </p>
         </Reveal>
 
         <Reveal delay={delay + 0.3}>
-          <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center md:justify-start">
+          <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center md:mt-9 md:justify-start">
             <ButtonLink href={google} target="_blank" rel="noreferrer noopener">
               Google Maps
             </ButtonLink>
@@ -124,7 +124,7 @@ export function Venue() {
   return (
     <>
       <SectionHeading eyebrow="The Venue" title={invitation.venue.name} numeral="IV" />
-      <div className="mt-12 md:mt-16">
+      <div className="mt-8 md:mt-16">
         <VenueCard occasion={invitation.occasions.engagement} />
       </div>
     </>
@@ -135,7 +135,7 @@ export function Celebrations() {
   return (
     <>
       <SectionHeading eyebrow="The Celebrations" numeral="IV" />
-      <div className="mt-12 flex flex-col gap-20 md:mt-16 md:gap-28">
+      <div className="mt-8 flex flex-col gap-16 md:mt-16 md:gap-28">
         {programme.map((occasion) => (
           <VenueCard key={occasion.key} occasion={occasion} />
         ))}

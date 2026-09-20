@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useIntro } from "@/components/shell/intro-context";
 import { invitation } from "@/content/invitation";
@@ -12,11 +12,13 @@ const BARS = [0.45, 1, 0.65, 0.85];
 /**
  * Renders only when a track is configured. Playback is started by the tap that
  * opens the envelope, which is also the gesture browsers require — so sound
- * never arrives unannounced.
+ * never arrives unannounced. It also pauses whenever the tab is in the
+ * background, and resumes only if the guest had left it on.
  */
 export function MusicToggle() {
   const { opened, musicRef } = useIntro();
   const [playing, setPlaying] = useState(false);
+  const wantedRef = useRef(false);
   const src = invitation.audioSrc;
 
   useEffect(() => {
@@ -24,13 +26,29 @@ export function MusicToggle() {
     if (!audio) return;
 
     audio.volume = 0.35;
-    const onPlay = () => setPlaying(true);
+    const onPlay = () => {
+      wantedRef.current = true;
+      setPlaying(true);
+    };
     const onPause = () => setPlaying(false);
+
+    const syncToVisibility = () => {
+      if (document.visibilityState === "hidden") {
+        if (!audio.paused) audio.pause();
+        return;
+      }
+      if (wantedRef.current && audio.paused) {
+        void audio.play().catch(() => {});
+      }
+    };
+
     audio.addEventListener("play", onPlay);
     audio.addEventListener("pause", onPause);
+    document.addEventListener("visibilitychange", syncToVisibility);
     return () => {
       audio.removeEventListener("play", onPlay);
       audio.removeEventListener("pause", onPause);
+      document.removeEventListener("visibilitychange", syncToVisibility);
     };
   }, [musicRef, src]);
 
@@ -41,8 +59,12 @@ export function MusicToggle() {
     if (!audio) return;
 
     if (audio.paused) {
-      void audio.play().catch(() => {});
+      wantedRef.current = true;
+      void audio.play().catch(() => {
+        wantedRef.current = false;
+      });
     } else {
+      wantedRef.current = false;
       audio.pause();
     }
   }
