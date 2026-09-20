@@ -46,6 +46,28 @@ const madhuramveppVenue = {
 } as const;
 
 const weddingDate = {
+  iso: "2026-11-01T14:00:00+05:30",
+  timeZone: "Asia/Kolkata",
+  display: "1 November 2026",
+  dayOfWeek: "Sunday",
+  time: "2:00 in the afternoon",
+  timeShort: "2:00 PM",
+} as const;
+
+const weddingVenue = {
+  name: "St George Jacobite Syrian Church",
+  area: "Chudakuzhy",
+  city: "Ernakulam, Kerala",
+  addressLines: [
+    "St George Jacobite Syrian Church",
+    "Chudakuzhy, Vengoor West",
+    "Kerala 683546",
+  ],
+  coords: { lat: 10.1587877, lng: 76.5208514 },
+  mapQuery: "St. George Jacobite Syrian Church, Chundakuzhy",
+} as const;
+
+const receptionDate = {
   iso: "2026-11-01T18:00:00+05:30",
   timeZone: "Asia/Kolkata",
   display: "1 November 2026",
@@ -54,7 +76,7 @@ const weddingDate = {
   timeShort: "6:00 PM onwards",
 } as const;
 
-const weddingVenue = {
+const receptionVenue = {
   name: "St Mary's Church",
   area: "Alattuchira",
   city: "Ernakulam, Kerala",
@@ -78,9 +100,15 @@ export const occasions = {
   },
   wedding: {
     key: "wedding",
-    label: "The Wedding",
+    label: "The Wedding Ceremony",
     date: weddingDate,
     venue: weddingVenue,
+  },
+  reception: {
+    key: "reception",
+    label: "The Reception",
+    date: receptionDate,
+    venue: receptionVenue,
   },
 } as const;
 
@@ -88,6 +116,7 @@ export const programme = [
   occasions.engagement,
   occasions.madhuramvepp,
   occasions.wedding,
+  occasions.reception,
 ] as const;
 
 export type Occasion = (typeof programme)[number];
@@ -119,10 +148,10 @@ export const invitation = {
   /** The formal invitation wording, one block per family. */
   invite: {
     eyebrow: "The Engagement",
-    lead: "With joyful hearts and the blessings of our families, we invite you to the engagement of",
+    lead: "With joyful hearts and the blessings of our families, we invite you and your family to the engagement of",
     weddingEyebrow: "The Wedding",
     weddingLead:
-      "With joyful hearts and the blessings of our families, we invite you to the wedding of",
+      "With joyful hearts and the blessings of our families, we invite you and your family to the wedding of",
     closing: "Your presence and prayers would mean the world to us.",
   },
 
@@ -130,7 +159,7 @@ export const invitation = {
     one: {
       name: "Dr Jesme Eldho",
       relation: "Daughter of",
-      parents: "Dr. Eldho P. Varghese & Mrs. Meena M. Abraham",
+      parents: "Dr. Eldho P. Varghese & Mrs. Meena Eldho",
       house: "Panthalikudy House, Kuruppampady",
     },
     two: {
@@ -183,10 +212,10 @@ export const invitation = {
   meta: {
     title: "Jesme & Vibin — Engagement",
     description:
-      "Together with our families, we invite you to celebrate our engagement on 26 October 2026 at Seema Auditorium, Perumbavoor.",
+      "Together with our families, we invite you and your family to celebrate our engagement on 26 October 2026 at Seema Auditorium, Perumbavoor.",
     weddingTitle: "Jesme & Vibin — Wedding",
     weddingDescription:
-      "Together with our families, we invite you to the engagement on 26 October, Madhuramvepp on 30 October, and the wedding on 1 November 2026 at St Mary's Church, Alattuchira.",
+      "Together with our families, we invite you and your family to the engagement on 26 October, Madhuramvepp on 30 October, and the wedding ceremony on 1 November 2026 at St George Jacobite Syrian Church, Chudakuzhy, followed by the reception at St Mary's Church, Alattuchira.",
   },
 } as const;
 
