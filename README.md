@@ -31,9 +31,10 @@ Until then the arch shows `couple-placeholder.jpg`.
 
 ## Music
 
-A public-domain recording of Erik Satie's *Gymnopédie No. 1* (CC0, no royalties) starts
-when the envelope is opened. The corner toggle mutes it. To swap the track, replace
-`public/audio/gymnopedie.m4a` and point `audioSrc` at the new file.
+A short looping excerpt of Erik Satie's *Gymnopédie No. 1* starts when the envelope
+is opened. The recording is Kevin MacLeod's (CC BY 3.0, royalty-free); the corner
+toggle mutes it. To swap the track, replace `public/audio/gymnopedie-loop.m4a` and
+point `audioSrc` at the new file.
 
 ## Saving the wishes
 

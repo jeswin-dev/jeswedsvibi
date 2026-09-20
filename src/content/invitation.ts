@@ -75,8 +75,8 @@ export const invitation = {
     alt: "Jesme and Vibin",
   },
 
-  // Erik Satie, Gymnopédie No. 1. Recording released as CC0 — no royalties.
-  audioSrc: "/audio/gymnopedie.m4a",
+  // A short looping excerpt of Gymnopédie No. 1 (Kevin MacLeod, CC BY 3.0).
+  audioSrc: "/audio/gymnopedie-loop.m4a",
 
   rsvp: {
     eyebrow: "RSVP",
@@ -99,6 +99,7 @@ export const invitation = {
 
   footer: {
     credit: "With wishes from Jeswin Eldho",
+    music: "Gymnopédie No. 1 — Kevin MacLeod",
   },
 
   meta: {

@@ -85,6 +85,9 @@ export function Footer() {
 
       <Reveal delay={0.4}>
         <p className="mt-12 font-display text-sm text-ivory/45 italic">{footer.credit}</p>
+        <p className="mt-3 text-[0.65rem] tracking-wide text-ivory/30">
+          Music: {footer.music}
+        </p>
       </Reveal>
     </div>
   );
