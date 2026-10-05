@@ -56,11 +56,11 @@ const weddingDate = {
 
 const weddingVenue = {
   name: "St George Jacobite Syrian Church",
-  area: "Chudakuzhy",
+  area: "Chundakuzhy",
   city: "Ernakulam, Kerala",
   addressLines: [
     "St George Jacobite Syrian Church",
-    "Chudakuzhy, Vengoor West",
+    "Chundakuzhy, Vengoor West",
     "Kerala 683546",
   ],
   coords: { lat: 10.1587877, lng: 76.5208514 },
@@ -215,7 +215,7 @@ export const invitation = {
       "Together with our families, we invite you and your family to celebrate our engagement on 26 October 2026 at Seema Auditorium, Perumbavoor.",
     weddingTitle: "Jesme & Vibin — Wedding",
     weddingDescription:
-      "Together with our families, we invite you and your family to the engagement on 26 October, Madhuramvepp on 30 October, and the wedding ceremony on 1 November 2026 at St George Jacobite Syrian Church, Chudakuzhy, followed by the reception at St Mary's Church, Alattuchira.",
+      "Together with our families, we invite you and your family to the engagement on 26 October, Madhuramvepp on 30 October, and the wedding ceremony on 1 November 2026 at St George Jacobite Syrian Church, Chundakuzhy, followed by the reception at St Mary's Church, Alattuchira.",
   },
 } as const;
 
